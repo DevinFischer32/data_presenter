@@ -1,27 +1,34 @@
+import plotly.graph_objects as go 
+
 open_file = open('CupcakeInvoices.csv')
 for line in open_file:
     line = line.split(',')
     for type in line:
         if type == "Chocolate":
-            print('Chocolate')
-        elif type == "Strawberry":
-            print('Strawberry')
+            print("Chocolate")
         elif type == "Vanilla":
-            print('Vanilla')
-
+            print("Vanilla")
+        elif type == "Strawberry":
+            print("Strawberry")
 open_file.close()
+chocolate = 0
+vanilla = 0
+strawberry = 0
 
 open_file = open('CupcakeInvoices.csv')
 for line in open_file:
     line = line.split(',')
-    total = int(line[3]) * float(line[4])
-    print("Total:",line[2],'$',round(total))
+    if line[2] =="Chocolate":
+      chocolate += int(line[3]) * float(line[4])
+    elif line[2] =="Strawberry":
+      strawberry += int(line[3]) * float(line[4])
+    elif line[2] =="Vanilla":
+      vanilla += int(line[3]) * float(line[4])
 
-import matplotlib.pyplot as plt
-plt.bar(line[2],round(total))
-plt.title('Cupcake Flavor vs Total Income')
-plt.xlabel('Flavors')
-plt.ylabel('Income')
-plt.show()
+total_invoices = strawberry+vanilla+chocolate
+print(round(total_invoices,2))
+print(strawberry,chocolate,vanilla)
 
-open_file.close()
+fig = go.Figure(data=go.Bar(y=[chocolate, vanilla, strawberry],x=["Chocolate", "Vanilla", "Strawberry"]))
+
+fig.show()
